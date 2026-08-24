@@ -1,0 +1,105 @@
+// Prisma schema for vape-store
+// learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String?
+  sortOrder   Int       @default(0)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Brand {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  logoUrl   String?
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  name        String
+  description String?
+  categoryId  String
+  category    Category       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  brandId     String?
+  brand       Brand?         @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  // Per-category attribute payload (e.g. puffCount, nicotineStrength, flavor).
+  // Shape is validated in the app layer, see src/lib/attribute-schemas.ts.
+  attributes  Json           @default("{}")
+  price       Decimal?       @db.Decimal(10, 2)
+  salePrice   Decimal?       @db.Decimal(10, 2)
+  isNew       Boolean        @default(false)
+  isOnSale    Boolean        @default(false)
+  isActive    Boolean        @default(true)
+  images      ProductImage[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([isActive])
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  key       String
+  alt       String?
+  sortOrder Int      @default(0)
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Banner {
+  id        String    @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String
+  imageKey  String
+  linkUrl   String?
+  sortOrder Int       @default(0)
+  isActive  Boolean   @default(true)
+  startsAt  DateTime?
+  endsAt    DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// Singleton row. id is always the literal "singleton" — enforced by src/server/services/store-info.service.ts.
+model StoreInfo {
+  id          String   @id @default("singleton")
+  name        String
+  addressLine String
+  city        String
+  state       String
+  zip         String
+  phone       String
+  email       String?
+  hours       Json
+  latitude    Float?
+  longitude   Float?
+  mapEmbedUrl String?
+  socialLinks Json?
+  updatedAt   DateTime @updatedAt
+}

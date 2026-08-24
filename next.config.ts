@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
+const r2PublicUrl = process.env.R2_PUBLIC_URL;
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: "standalone",
+  images: {
+    remotePatterns: r2PublicUrl ? [new URL(`${r2PublicUrl}/**`)] : [],
+  },
 };
 
 export default nextConfig;
