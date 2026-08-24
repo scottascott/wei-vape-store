@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AvailableInStore } from "@/components/public/available-in-store";
+import { ProductImage } from "@/components/public/product-image";
 import { Badge } from "@/components/ui/badge";
 import {
   attributeFieldDefinitions,
@@ -53,20 +53,12 @@ export default async function ProductDetailPage({
 
       <div className="mt-4 grid gap-8 md:grid-cols-2">
         <div className="relative aspect-square overflow-hidden rounded-lg border bg-muted">
-          {primaryImage ? (
-            <Image
-              src={primaryImage.url}
-              alt={primaryImage.alt ?? product.name}
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover"
-              priority
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
-              No image
-            </div>
-          )}
+          <ProductImage
+            url={primaryImage?.url}
+            alt={primaryImage?.alt ?? product.name}
+            sizes="(min-width: 768px) 50vw, 100vw"
+            priority
+          />
         </div>
 
         <div>

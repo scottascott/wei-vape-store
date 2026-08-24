@@ -13,8 +13,8 @@ import { slugify } from "../src/lib/validations/shared";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
-const DEFAULT_IMAGE_KEY = "vape_example.png";
-const DEFAULT_IMAGE_URL = `${process.env.R2_PUBLIC_URL}/${DEFAULT_IMAGE_KEY}`;
+// Products created without any ProductImage row automatically fall back to
+// /public/product-placeholder.webp (see src/components/public/product-image.tsx).
 
 const CATEGORY_SLUG_BY_NAME: Record<string, string> = {
   "Disposable Vapes": "disposable",
@@ -591,7 +591,7 @@ async function main() {
       Object.entries(attributes).filter(([, value]) => value !== undefined),
     );
 
-    const product = await prisma.product.create({
+    await prisma.product.create({
       data: {
         slug,
         name: row.name,
@@ -599,17 +599,6 @@ async function main() {
         brandId,
         attributes: cleanedAttributes as Prisma.InputJsonValue,
         isActive: true,
-      },
-    });
-
-    await prisma.productImage.create({
-      data: {
-        productId: product.id,
-        url: DEFAULT_IMAGE_URL,
-        key: DEFAULT_IMAGE_KEY,
-        alt: `${row.name} (placeholder image)`,
-        isPrimary: true,
-        sortOrder: 0,
       },
     });
 

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { ProductImage } from "@/components/public/product-image";
 import { Badge } from "@/components/ui/badge";
 import type { Prisma } from "@/generated/prisma/client";
 
@@ -17,19 +17,12 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
       className="group flex flex-col overflow-hidden rounded-lg border bg-card transition-shadow hover:shadow-md"
     >
       <div className="relative aspect-square bg-muted">
-        {primaryImage ? (
-          <Image
-            src={primaryImage.url}
-            alt={primaryImage.alt ?? product.name}
-            fill
-            sizes="(min-width: 768px) 25vw, 50vw"
-            className="object-cover transition-transform group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
-            No image
-          </div>
-        )}
+        <ProductImage
+          url={primaryImage?.url}
+          alt={primaryImage?.alt ?? product.name}
+          sizes="(min-width: 768px) 25vw, 50vw"
+          className="transition-transform group-hover:scale-105"
+        />
         <div className="absolute left-2 top-2 flex gap-1.5">
           {product.isNew && <Badge>New</Badge>}
           {product.isOnSale && <Badge variant="destructive">Sale</Badge>}
