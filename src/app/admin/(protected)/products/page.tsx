@@ -21,7 +21,7 @@ export default async function AdminProductsPage() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Products</h1>
-        <Button render={<Link href="/admin/products/new">New product</Link>} />
+        <Button render={<Link href="/admin/products/new">New product</Link>} nativeButton={false} />
       </div>
 
       <Table className="mt-6">
@@ -53,6 +53,7 @@ export default async function AdminProductsPage() {
                 </form>
                 <Button
                   render={<Link href={`/admin/products/${product.id}`}>Edit</Link>}
+                  nativeButton={false}
                   variant="outline"
                   size="sm"
                 />

@@ -20,7 +20,7 @@ export default async function AdminCategoriesPage() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Categories</h1>
-        <Button render={<Link href="/admin/categories/new">New category</Link>} />
+        <Button render={<Link href="/admin/categories/new">New category</Link>} nativeButton={false} />
       </div>
 
       <Table className="mt-6">
@@ -41,6 +41,7 @@ export default async function AdminCategoriesPage() {
               <TableCell className="flex justify-end gap-2">
                 <Button
                   render={<Link href={`/admin/categories/${category.id}`}>Edit</Link>}
+                  nativeButton={false}
                   variant="outline"
                   size="sm"
                 />

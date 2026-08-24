@@ -22,7 +22,7 @@ export default async function AdminBannersPage() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Banners</h1>
-        <Button render={<Link href="/admin/banners/new">New banner</Link>} />
+        <Button render={<Link href="/admin/banners/new">New banner</Link>} nativeButton={false} />
       </div>
 
       <Table className="mt-6">
@@ -53,6 +53,7 @@ export default async function AdminBannersPage() {
               <TableCell className="flex justify-end gap-2">
                 <Button
                   render={<Link href={`/admin/banners/${banner.id}`}>Edit</Link>}
+                  nativeButton={false}
                   variant="outline"
                   size="sm"
                 />

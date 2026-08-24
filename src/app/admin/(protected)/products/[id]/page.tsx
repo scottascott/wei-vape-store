@@ -36,7 +36,11 @@ export default async function EditProductPage({
         <ProductForm
           categories={categories}
           brands={brands}
-          product={product}
+          product={{
+            ...product,
+            price: product.price?.toString() ?? null,
+            salePrice: product.salePrice?.toString() ?? null,
+          }}
           action={updateProduct.bind(null, id)}
         />
       </div>

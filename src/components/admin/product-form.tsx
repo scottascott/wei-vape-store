@@ -21,6 +21,14 @@ type ProductWithRelations = Prisma.ProductGetPayload<{
   include: { category: true; brand: true; images: true };
 }>;
 
+// Decimal instances can't cross the Server->Client Component boundary, so the
+// page passes price/salePrice pre-serialized to strings (see serializeProduct
+// in the products/new and products/[id] pages).
+type SerializedProduct = Omit<ProductWithRelations, "price" | "salePrice"> & {
+  price: string | null;
+  salePrice: string | null;
+};
+
 function toStringAttributeValues(attributes: unknown): Record<string, string> {
   const record = (attributes ?? {}) as Record<string, unknown>;
   return Object.fromEntries(
@@ -36,12 +44,27 @@ export function ProductForm({
 }: {
   categories: Category[];
   brands: Brand[];
-  product?: ProductWithRelations;
+  product?: SerializedProduct;
   action: (formData: FormData) => void;
 }) {
   const [categoryId, setCategoryId] = useState(product?.categoryId ?? categories[0]?.id ?? "");
   const [attributeValues, setAttributeValues] = useState<Record<string, string>>(() =>
     toStringAttributeValues(product?.attributes),
+  );
+
+  // Base UI's <Select> only shows the selected item's label (instead of its raw
+  // value) in the trigger when given this map — it doesn't infer it from the
+  // rendered <SelectItem> children the way Radix does.
+  const categoryItems = useMemo(
+    () => Object.fromEntries(categories.map((category) => [category.id, category.name])),
+    [categories],
+  );
+  const brandItems = useMemo(
+    () => ({
+      none: "No brand",
+      ...Object.fromEntries(brands.map((brand) => [brand.id, brand.name])),
+    }),
+    [brands],
   );
 
   const categorySlug = useMemo(
@@ -76,6 +99,7 @@ export function ProductForm({
           <Label htmlFor="categoryId">Category</Label>
           <Select
             name="categoryId"
+            items={categoryItems}
             value={categoryId}
             onValueChange={(value) => setCategoryId(value ?? "")}
             required
@@ -94,7 +118,7 @@ export function ProductForm({
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="brandId">Brand</Label>
-          <Select name="brandId" defaultValue={product?.brandId ?? "none"}>
+          <Select name="brandId" items={brandItems} defaultValue={product?.brandId ?? "none"}>
             <SelectTrigger id="brandId" className="w-full">
               <SelectValue placeholder="No brand" />
             </SelectTrigger>
@@ -118,7 +142,7 @@ export function ProductForm({
             name="price"
             type="number"
             step="0.01"
-            defaultValue={product?.price?.toString() ?? ""}
+            defaultValue={product?.price ?? ""}
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -128,7 +152,7 @@ export function ProductForm({
             name="salePrice"
             type="number"
             step="0.01"
-            defaultValue={product?.salePrice?.toString() ?? ""}
+            defaultValue={product?.salePrice ?? ""}
           />
         </div>
       </div>
