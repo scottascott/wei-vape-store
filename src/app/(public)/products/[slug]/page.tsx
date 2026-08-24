@@ -42,11 +42,21 @@ export default async function ProductDetailPage({
   );
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <nav className="text-sm text-muted-foreground">
+      <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
+        <Link href="/" className="hover:text-foreground">
+          Home
+        </Link>
+        <span aria-hidden="true">/</span>
         <Link href="/products" className="hover:text-foreground">
           Products
-        </Link>{" "}
-        / <span>{product.category.name}</span>
+        </Link>
+        <span aria-hidden="true">/</span>
+        <Link
+          href={`/products?category=${product.category.slug}`}
+          className="hover:text-foreground"
+        >
+          {product.category.name}
+        </Link>
       </nav>
 
       <div className="mt-4 grid gap-8 md:grid-cols-2">
