@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vape Store",
+  title: "Wei's Vape — Specialty Vape Store",
   description: "Disposables, pods, e-liquid, devices, and accessories — available in store.",
 };
 

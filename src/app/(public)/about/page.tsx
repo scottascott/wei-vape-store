@@ -1,69 +1,70 @@
-import { StoreHours } from "@/components/public/store-hours";
-import { StoreMap } from "@/components/public/store-map";
+import Link from "next/link";
+import { ShieldCheck, Sparkles, Store } from "lucide-react";
+
+import { PageHero } from "@/components/public/page-hero";
 import { storeInfoService } from "@/server/services/store-info.service";
+
+const VALUES = [
+  {
+    icon: Store,
+    title: "Specialty, in-store store",
+    body: "We're a local specialty vape shop — come in, ask questions, and see products in person before you buy.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "19+ only, every time",
+    body: "Valid government-issued photo ID is required for entry and purchase, no exceptions.",
+  },
+  {
+    icon: Sparkles,
+    title: "Trusted brands only",
+    body: "We stock disposables, pods, e-liquids, devices and accessories from brands we actually trust.",
+  },
+];
 
 export default async function AboutPage() {
   const storeInfo = await storeInfoService.get();
 
-  if (!storeInfo) {
-    return (
-      <div className="mx-auto max-w-3xl px-4 py-8">
-        <p className="text-sm text-muted-foreground">Store info hasn&apos;t been set up yet.</p>
-      </div>
-    );
-  }
-
-  const socialLinks = (storeInfo.socialLinks ?? {}) as Record<string, string | undefined>;
-
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <h1 className="text-2xl font-semibold">{storeInfo.name}</h1>
+    <div>
+      <PageHero
+        title="About Us"
+        subtitle={`${storeInfo?.name ?? "Wei's Vape"} is your neighbourhood specialty vape store.`}
+      />
 
-      <div className="mt-6 grid gap-8 sm:grid-cols-2">
-        <div>
-          <h2 className="text-sm font-medium text-muted-foreground">Location</h2>
-          <p className="mt-2 text-sm">
-            {storeInfo.addressLine}
-            <br />
-            {storeInfo.city}, {storeInfo.state} {storeInfo.zip}
-          </p>
-          <h2 className="mt-6 text-sm font-medium text-muted-foreground">Contact</h2>
-          <p className="mt-2 text-sm">{storeInfo.phone}</p>
-          {storeInfo.email && <p className="text-sm">{storeInfo.email}</p>}
-          {(socialLinks.instagram || socialLinks.facebook || socialLinks.twitter) && (
-            <div className="mt-3 flex gap-3 text-sm">
-              {socialLinks.instagram && (
-                <a href={socialLinks.instagram} className="text-muted-foreground hover:text-foreground">
-                  Instagram
-                </a>
-              )}
-              {socialLinks.facebook && (
-                <a href={socialLinks.facebook} className="text-muted-foreground hover:text-foreground">
-                  Facebook
-                </a>
-              )}
-              {socialLinks.twitter && (
-                <a href={socialLinks.twitter} className="text-muted-foreground hover:text-foreground">
-                  Twitter
-                </a>
-              )}
+      <div className="mx-auto max-w-4xl px-4 py-12">
+        <p className="max-w-2xl text-muted-foreground">
+          We carry a wide selection of quality vape products from top brands — disposables, pod
+          systems, e-liquids, devices, and accessories. Everything is available to browse here
+          online, but every purchase happens in store, where our team can help you find the right
+          product and answer any questions.
+        </p>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          {VALUES.map((value) => (
+            <div key={value.title} className="rounded-lg border p-5">
+              <value.icon className="size-6 text-amber-500" />
+              <p className="mt-3 text-sm font-semibold">{value.title}</p>
+              <p className="mt-1.5 text-sm text-muted-foreground">{value.body}</p>
             </div>
-          )}
+          ))}
         </div>
 
-        <div>
-          <h2 className="text-sm font-medium text-muted-foreground">Hours</h2>
-          <div className="mt-2">
-            <StoreHours hours={storeInfo.hours} />
-          </div>
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Link
+            href="/products"
+            className="rounded-full bg-black px-5 py-2.5 text-sm font-semibold text-white hover:bg-black/90"
+          >
+            Browse Products
+          </Link>
+          <Link
+            href="/contact"
+            className="rounded-full border px-5 py-2.5 text-sm font-semibold hover:bg-muted"
+          >
+            Visit & Contact
+          </Link>
         </div>
       </div>
-
-      {storeInfo.mapEmbedUrl && (
-        <div className="mt-8">
-          <StoreMap mapEmbedUrl={storeInfo.mapEmbedUrl} />
-        </div>
-      )}
     </div>
   );
 }
