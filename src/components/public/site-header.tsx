@@ -1,4 +1,5 @@
 import { MapPin, Phone, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { categoryService } from "@/server/services/category.service";
@@ -44,19 +45,15 @@ export async function SiteHeader() {
       </div>
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
-        <Link href="/" className="leading-tight">
-          <span className="text-2xl font-extrabold tracking-tight">
-            {storeInfo?.name ? (
-              storeInfo.name
-            ) : (
-              <>
-                WEI&apos;S <span className="text-amber-400">VAPE</span>
-              </>
-            )}
-          </span>
-          <p className="text-[10px] font-medium tracking-[0.2em] text-white/50">
-            SPECIALTY VAPE STORE
-          </p>
+        <Link href="/" className="shrink-0">
+          <Image
+            src="/logo.png"
+            alt={storeInfo?.name ?? "Wei's Vape"}
+            width={299}
+            height={296}
+            className="h-14 w-auto sm:h-16"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-white/80 md:flex">
