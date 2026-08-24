@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import type { Banner } from "@/generated/prisma/client";
@@ -11,13 +10,11 @@ export function BannerCarousel({ banners }: { banners: Banner[] }) {
       {banners.map((banner) => {
         const content = (
           <div className="relative aspect-[16/6] w-full overflow-hidden rounded-xl bg-muted">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary external URL */}
+            <img
               src={banner.imageUrl}
               alt={banner.title}
-              fill
-              sizes="100vw"
-              className="object-cover"
-              priority
+              className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
               <p className="text-xl font-semibold">{banner.title}</p>

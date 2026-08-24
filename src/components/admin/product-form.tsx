@@ -19,7 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import type { Brand, Category, Prisma } from "@/generated/prisma/client";
 
 type ProductWithRelations = Prisma.ProductGetPayload<{
-  include: { category: true; brand: true; images: true };
+  include: { category: true; brand: true };
 }>;
 
 // Decimal instances can't cross the Server->Client Component boundary, so the
@@ -49,6 +49,7 @@ export function ProductForm({
   action: (formData: FormData) => void;
 }) {
   const [categoryId, setCategoryId] = useState(product?.categoryId ?? categories[0]?.id ?? "");
+  const [imageUrl, setImageUrl] = useState(product?.imageUrl ?? "");
   const [attributeValues, setAttributeValues] = useState<Record<string, string>>(() =>
     toStringAttributeValues(product?.attributes),
   );
@@ -104,6 +105,31 @@ export function ProductForm({
           Description <span className="font-normal text-muted-foreground">(optional)</span>
         </Label>
         <Textarea id="description" name="description" defaultValue={product?.description ?? ""} />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="imageUrl">
+          Image URL <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
+        <Input
+          id="imageUrl"
+          name="imageUrl"
+          type="url"
+          placeholder="https://..."
+          value={imageUrl}
+          onChange={(event) => setImageUrl(event.target.value)}
+        />
+        {imageUrl && (
+          // eslint-disable-next-line @next/next/no-img-element -- arbitrary external URL, not a local/optimizable asset
+          <img
+            src={imageUrl}
+            alt="Preview"
+            className="mt-1 h-24 w-24 rounded-md border object-cover"
+            onError={(event) => {
+              event.currentTarget.style.display = "none";
+            }}
+          />
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-3">

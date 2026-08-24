@@ -13,6 +13,7 @@ export const productInputSchema = z.object({
   // Validated more strictly against the category's attribute shape in
   // product.service.ts, once the category is known.
   attributes: z.record(z.string(), z.unknown()).default({}),
+  imageUrl: z.url().optional().or(z.literal("")),
   price: z.coerce.number().nonnegative().optional(),
   salePrice: z.coerce.number().nonnegative().optional(),
   isNew: booleanFromSwitch,

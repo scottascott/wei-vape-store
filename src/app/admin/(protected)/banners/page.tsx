@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
@@ -39,8 +38,13 @@ export default async function AdminBannersPage() {
           {banners.map((banner) => (
             <TableRow key={banner.id}>
               <TableCell>
-                <div className="relative size-12 overflow-hidden rounded-md border bg-muted">
-                  <Image src={banner.imageUrl} alt={banner.title} fill className="object-cover" />
+                <div className="size-12 overflow-hidden rounded-md border bg-muted">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary external URL */}
+                  <img
+                    src={banner.imageUrl}
+                    alt={banner.title}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </TableCell>
               <TableCell>{banner.title}</TableCell>

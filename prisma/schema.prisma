@@ -32,43 +32,30 @@ model Brand {
 }
 
 model Product {
-  id          String         @id @default(cuid())
-  slug        String         @unique
+  id          String    @id @default(cuid())
+  slug        String    @unique
   name        String
   description String?
   categoryId  String
-  category    Category       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   brandId     String?
-  brand       Brand?         @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  brand       Brand?    @relation(fields: [brandId], references: [id], onDelete: SetNull)
   // Per-category attribute payload (e.g. puffCount, nicotineStrength, flavor).
   // Shape is validated in the app layer, see src/lib/attribute-schemas.ts.
-  attributes  Json           @default("{}")
-  price       Decimal?       @db.Decimal(10, 2)
-  salePrice   Decimal?       @db.Decimal(10, 2)
-  isNew       Boolean        @default(false)
-  isOnSale    Boolean        @default(false)
-  isActive    Boolean        @default(true)
-  images      ProductImage[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  attributes  Json      @default("{}")
+  price       Decimal?  @db.Decimal(10, 2)
+  salePrice   Decimal?  @db.Decimal(10, 2)
+  isNew       Boolean   @default(false)
+  isOnSale    Boolean   @default(false)
+  isActive    Boolean   @default(true)
+  // Plain external link, entered by hand in the admin — no upload/storage involved.
+  imageUrl    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([categoryId])
   @@index([brandId])
   @@index([isActive])
-}
-
-model ProductImage {
-  id        String   @id @default(cuid())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  url       String
-  key       String
-  alt       String?
-  sortOrder Int      @default(0)
-  isPrimary Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  @@index([productId])
 }
 
 model Banner {
@@ -76,7 +63,6 @@ model Banner {
   title     String
   subtitle  String?
   imageUrl  String
-  imageKey  String
   linkUrl   String?
   sortOrder Int       @default(0)
   isActive  Boolean   @default(true)

@@ -5,12 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import type { Prisma } from "@/generated/prisma/client";
 
 type ProductWithRelations = Prisma.ProductGetPayload<{
-  include: { category: true; brand: true; images: true };
+  include: { category: true; brand: true };
 }>;
 
 export function ProductCard({ product }: { product: ProductWithRelations }) {
-  const primaryImage = product.images.find((image) => image.isPrimary) ?? product.images[0];
-
   return (
     <Link
       href={`/products/${product.slug}`}
@@ -18,8 +16,8 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
     >
       <div className="relative aspect-square bg-muted">
         <ProductImage
-          url={primaryImage?.url}
-          alt={primaryImage?.alt ?? product.name}
+          url={product.imageUrl}
+          alt={product.name}
           sizes="(min-width: 768px) 25vw, 50vw"
           className="transition-transform group-hover:scale-105"
         />

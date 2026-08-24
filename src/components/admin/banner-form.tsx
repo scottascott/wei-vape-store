@@ -1,11 +1,11 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
 
-import { ImageUploader } from "@/components/admin/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RequiredMark } from "@/components/admin/required-mark";
 import { Switch } from "@/components/ui/switch";
 import type { Banner } from "@/generated/prisma/client";
 
@@ -16,35 +16,53 @@ export function BannerForm({
   banner?: Banner;
   action: (formData: FormData) => void;
 }) {
-  const scopeId = useId().replace(/[^a-zA-Z0-9]/g, "");
-  const [image, setImage] = useState<{ url: string; key: string }>({
-    url: banner?.imageUrl ?? "",
-    key: banner?.imageKey ?? "",
-  });
+  const [imageUrl, setImageUrl] = useState(banner?.imageUrl ?? "");
 
   return (
     <form action={action} className="flex max-w-md flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <Label>Image</Label>
-        <ImageUploader
-          scope="banner"
-          scopeId={banner?.id ?? scopeId}
-          currentUrl={image.url || null}
-          onUploaded={(result) => setImage(result)}
+        <Label htmlFor="imageUrl">
+          Image URL
+          <RequiredMark />
+        </Label>
+        <Input
+          id="imageUrl"
+          name="imageUrl"
+          type="url"
+          placeholder="https://..."
+          value={imageUrl}
+          onChange={(event) => setImageUrl(event.target.value)}
+          required
         />
-        <input type="hidden" name="imageUrl" value={image.url} required />
-        <input type="hidden" name="imageKey" value={image.key} required />
+        {imageUrl && (
+          // eslint-disable-next-line @next/next/no-img-element -- arbitrary external URL, not a local/optimizable asset
+          <img
+            src={imageUrl}
+            alt="Preview"
+            className="mt-1 h-24 w-full rounded-md border object-cover"
+            onError={(event) => {
+              event.currentTarget.style.display = "none";
+            }}
+          />
+        )}
       </div>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">
+          Title
+          <RequiredMark />
+        </Label>
         <Input id="title" name="title" defaultValue={banner?.title} required />
       </div>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="subtitle">Subtitle</Label>
+        <Label htmlFor="subtitle">
+          Subtitle <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
         <Input id="subtitle" name="subtitle" defaultValue={banner?.subtitle ?? ""} />
       </div>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="linkUrl">Link URL</Label>
+        <Label htmlFor="linkUrl">
+          Link URL <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
         <Input id="linkUrl" name="linkUrl" defaultValue={banner?.linkUrl ?? ""} />
       </div>
       <div className="flex flex-col gap-1.5">
@@ -61,7 +79,7 @@ export function BannerForm({
         />
         <Label htmlFor="isActive">Active</Label>
       </div>
-      <Button type="submit" className="self-start" disabled={!image.url}>
+      <Button type="submit" className="self-start">
         {banner ? "Save changes" : "Create banner"}
       </Button>
     </form>

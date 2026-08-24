@@ -12,7 +12,6 @@ export type ProductFilters = {
 const productListInclude = {
   category: true,
   brand: true,
-  images: { orderBy: { sortOrder: "asc" as const } },
 };
 
 export const productService = {
@@ -56,6 +55,7 @@ export const productService = {
         ...input,
         attributes: attributes as Prisma.InputJsonValue,
         brandId: input.brandId && input.brandId !== "none" ? input.brandId : null,
+        imageUrl: input.imageUrl || null,
       },
       include: productListInclude,
     });
@@ -69,6 +69,7 @@ export const productService = {
         ...input,
         attributes: attributes as Prisma.InputJsonValue,
         brandId: input.brandId && input.brandId !== "none" ? input.brandId : null,
+        imageUrl: input.imageUrl || null,
       },
       include: productListInclude,
     });
@@ -79,9 +80,6 @@ export const productService = {
   },
 
   async delete(id: string) {
-    const product = await prisma.product.findUnique({ where: { id }, include: { images: true } });
-    if (!product) return;
     await prisma.product.delete({ where: { id } });
-    return product.images;
   },
 };

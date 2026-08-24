@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { PageHero } from "@/components/public/page-hero";
@@ -23,9 +22,12 @@ export default async function BrandsPage() {
                 className="flex flex-col items-center justify-center gap-3 rounded-lg border p-6 text-center transition-colors hover:border-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-500/5"
               >
                 {brand.logoUrl ? (
-                  <div className="relative h-10 w-full">
-                    <Image src={brand.logoUrl} alt={brand.name} fill className="object-contain" />
-                  </div>
+                  // eslint-disable-next-line @next/next/no-img-element -- arbitrary external URL
+                  <img
+                    src={brand.logoUrl}
+                    alt={brand.name}
+                    className="h-10 w-full object-contain"
+                  />
                 ) : (
                   <p className="text-lg font-bold tracking-tight">{brand.name}</p>
                 )}

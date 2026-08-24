@@ -2,7 +2,7 @@ import { ProductCard } from "@/components/public/product-card";
 import type { Prisma } from "@/generated/prisma/client";
 
 type ProductWithRelations = Prisma.ProductGetPayload<{
-  include: { category: true; brand: true; images: true };
+  include: { category: true; brand: true };
 }>;
 
 export function ProductGrid({ products }: { products: ProductWithRelations[] }) {

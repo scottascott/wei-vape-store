@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 
 import { requireAdminSession } from "@/server/actions/require-admin-session";
 import { productService } from "@/server/services/product.service";
-import { uploadService } from "@/server/services/upload.service";
 import { productInputSchema } from "@/lib/validations/product.schema";
 
 function parseProductFormData(formData: FormData) {
@@ -45,8 +44,7 @@ export async function setProductActive(id: string, isActive: boolean) {
 
 export async function deleteProduct(id: string) {
   await requireAdminSession();
-  const images = await productService.delete(id);
-  await Promise.all((images ?? []).map((image) => uploadService.deleteObject(image.key)));
+  await productService.delete(id);
   revalidatePath("/admin/products");
   revalidatePath("/products");
 }

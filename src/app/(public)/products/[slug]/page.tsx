@@ -40,8 +40,6 @@ export default async function ProductDetailPage({
     ([key, value]) =>
       value !== undefined && value !== null && value !== "" && !internalAttributeKeys.has(key),
   );
-  const primaryImage = product.images.find((image) => image.isPrimary) ?? product.images[0];
-
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <nav className="text-sm text-muted-foreground">
@@ -54,8 +52,8 @@ export default async function ProductDetailPage({
       <div className="mt-4 grid gap-8 md:grid-cols-2">
         <div className="relative aspect-square overflow-hidden rounded-lg border bg-muted">
           <ProductImage
-            url={primaryImage?.url}
-            alt={primaryImage?.alt ?? product.name}
+            url={product.imageUrl}
+            alt={product.name}
             sizes="(min-width: 768px) 50vw, 100vw"
             priority
           />
