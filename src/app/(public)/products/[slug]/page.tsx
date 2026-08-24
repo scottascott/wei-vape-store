@@ -4,9 +4,20 @@ import { notFound } from "next/navigation";
 
 import { AvailableInStore } from "@/components/public/available-in-store";
 import { Badge } from "@/components/ui/badge";
+import {
+  attributeFieldDefinitions,
+  type KnownAttributeCategorySlug,
+} from "@/lib/attribute-schemas";
 import { productService } from "@/server/services/product.service";
 
-function formatAttributeLabel(key: string): string {
+function formatAttributeLabel(key: string, categorySlug: string): string {
+  const definitions =
+    categorySlug in attributeFieldDefinitions
+      ? attributeFieldDefinitions[categorySlug as KnownAttributeCategorySlug]
+      : [];
+  const known = definitions.find((field) => field.name === key);
+  if (known) return known.label;
+
   return key
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/^./, (char) => char.toUpperCase());
@@ -95,7 +106,9 @@ export default async function ProductDetailPage({
             <dl className="mt-6 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
               {attributes.map(([key, value]) => (
                 <div key={key} className="contents">
-                  <dt className="text-muted-foreground">{formatAttributeLabel(key)}</dt>
+                  <dt className="text-muted-foreground">
+                    {formatAttributeLabel(key, product.category.slug)}
+                  </dt>
                   <dd>{String(value)}</dd>
                 </div>
               ))}
