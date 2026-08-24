@@ -6,6 +6,7 @@ import { AvailableInStore } from "@/components/public/available-in-store";
 import { Badge } from "@/components/ui/badge";
 import {
   attributeFieldDefinitions,
+  internalAttributeKeys,
   type KnownAttributeCategorySlug,
 } from "@/lib/attribute-schemas";
 import { productService } from "@/server/services/product.service";
@@ -36,7 +37,8 @@ export default async function ProductDetailPage({
   }
 
   const attributes = Object.entries(product.attributes as Record<string, unknown>).filter(
-    ([, value]) => value !== undefined && value !== null && value !== "",
+    ([key, value]) =>
+      value !== undefined && value !== null && value !== "" && !internalAttributeKeys.has(key),
   );
   const primaryImage = product.images.find((image) => image.isPrimary) ?? product.images[0];
 

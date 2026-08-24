@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { AttributeFields } from "@/components/admin/attribute-fields";
+import { RequiredMark } from "@/components/admin/required-mark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,22 +82,36 @@ export function ProductForm({
 
   return (
     <form action={action} className="flex max-w-xl flex-col gap-4">
+      <p className="text-xs text-muted-foreground">
+        <span className="text-destructive">*</span> Required — everything else is optional.
+      </p>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">
+          Name
+          <RequiredMark />
+        </Label>
         <Input id="name" name="name" defaultValue={product?.name} required />
       </div>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="slug">Slug</Label>
+        <Label htmlFor="slug">
+          Slug
+          <RequiredMark />
+        </Label>
         <Input id="slug" name="slug" defaultValue={product?.slug} required />
       </div>
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">
+          Description <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
         <Textarea id="description" name="description" defaultValue={product?.description ?? ""} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="categoryId">Category</Label>
+          <Label htmlFor="categoryId">
+            Category
+            <RequiredMark />
+          </Label>
           <Select
             name="categoryId"
             items={categoryItems}
@@ -117,7 +132,9 @@ export function ProductForm({
           </Select>
         </div>
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="brandId">Brand</Label>
+          <Label htmlFor="brandId">
+            Brand <span className="font-normal text-muted-foreground">(optional)</span>
+          </Label>
           <Select name="brandId" items={brandItems} defaultValue={product?.brandId ?? "none"}>
             <SelectTrigger id="brandId" className="w-full">
               <SelectValue placeholder="No brand" />
@@ -136,7 +153,9 @@ export function ProductForm({
 
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="price">Price</Label>
+          <Label htmlFor="price">
+            Price <span className="font-normal text-muted-foreground">(optional)</span>
+          </Label>
           <Input
             id="price"
             name="price"
@@ -146,7 +165,9 @@ export function ProductForm({
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="salePrice">Sale price</Label>
+          <Label htmlFor="salePrice">
+            Sale price <span className="font-normal text-muted-foreground">(optional)</span>
+          </Label>
           <Input
             id="salePrice"
             name="salePrice"

@@ -12,7 +12,8 @@
     "lint": "eslint",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:import-research": "tsx scripts/import-research-data.ts"
   },
   "dependencies": {
     "@auth/core": "^0.41.3",
