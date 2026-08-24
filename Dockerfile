@@ -11,7 +11,8 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN pnpm prisma generate
+# `pnpm build` now runs `prisma generate` itself (see package.json) — needed
+# since src/generated/prisma is gitignored and wouldn't exist otherwise.
 # The build only needs modules to import cleanly (all routes here are dynamic,
 # server-rendered on demand) — real secrets are supplied at `docker run` time.
 ENV SKIP_ENV_VALIDATION=1
