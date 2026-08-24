@@ -6,6 +6,10 @@ import { env } from "@/lib/env";
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   secret: env.AUTH_SECRET,
+  // No AUTH_URL is configured — trust the incoming Host header to build
+  // callback URLs instead, since the deployed domain isn't known ahead of
+  // time (Vercel preview URLs, self-hosted with a reverse proxy, etc.).
+  trustHost: true,
   providers: [
     Google({
       clientId: env.AUTH_GOOGLE_ID,
