@@ -1,6 +1,7 @@
 import { ShieldCheck, ShoppingBag, Sparkles, Store } from "lucide-react";
 import Link from "next/link";
 
+import { BrandMarquee } from "@/components/public/brand-marquee";
 import { ProductGrid } from "@/components/public/product-grid";
 import { SectionHeading } from "@/components/public/section-heading";
 import { getCategoryIcon } from "@/lib/category-icons";
@@ -87,24 +88,11 @@ export default async function HomePage() {
 
       {brands.length > 0 && (
         <section className="bg-black py-10 text-white">
-          <div className="mx-auto max-w-6xl px-4">
-            <p className="text-center text-xs font-semibold tracking-[0.2em] text-white/50">
-              BRANDS WE CARRY
-            </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-              {brands.slice(0, 10).map((brand) => (
-                <Link
-                  key={brand.id}
-                  href={`/products?brand=${brand.slug}`}
-                  className="text-lg font-bold tracking-tight text-white/70 transition-colors hover:text-amber-400"
-                >
-                  {brand.name}
-                </Link>
-              ))}
-              {brands.length > 10 && (
-                <span className="text-sm font-semibold text-amber-400">AND MORE...</span>
-              )}
-            </div>
+          <p className="text-center text-xs font-semibold tracking-[0.2em] text-white/50">
+            BRANDS WE CARRY
+          </p>
+          <div className="mt-6">
+            <BrandMarquee brands={brands} />
           </div>
         </section>
       )}
