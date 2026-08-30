@@ -5,6 +5,7 @@ import { BrandMarquee } from "@/components/public/brand-marquee";
 import { ProductGrid } from "@/components/public/product-grid";
 import { SectionHeading } from "@/components/public/section-heading";
 import { getCategoryIcon } from "@/lib/category-icons";
+import { toProductCardData } from "@/lib/serialize-product";
 import { brandService } from "@/server/services/brand.service";
 import { categoryService } from "@/server/services/category.service";
 import { productService } from "@/server/services/product.service";
@@ -22,7 +23,7 @@ export default async function HomePage() {
     productService.list({ onlyActive: true }),
   ]);
 
-  const featured = products.slice(0, 8);
+  const featured = products.slice(0, 8).map(toProductCardData);
 
   return (
     <div>

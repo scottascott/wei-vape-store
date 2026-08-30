@@ -1,17 +1,15 @@
 import { ProductCard } from "@/components/public/product-card";
-import type { Prisma } from "@/generated/prisma/client";
+import type { ProductCardData } from "@/lib/serialize-product";
 
-type ProductWithRelations = Prisma.ProductGetPayload<{
-  include: { category: true; brand: true };
-}>;
-
-export function ProductGrid({ products }: { products: ProductWithRelations[] }) {
+export function ProductGrid({
+  products,
+  emptyMessage = "No products found in this category yet.",
+}: {
+  products: ProductCardData[];
+  emptyMessage?: string;
+}) {
   if (products.length === 0) {
-    return (
-      <p className="py-16 text-center text-sm text-muted-foreground">
-        No products found in this category yet.
-      </p>
-    );
+    return <p className="py-16 text-center text-sm text-muted-foreground">{emptyMessage}</p>;
   }
 
   return (

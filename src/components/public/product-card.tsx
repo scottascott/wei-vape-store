@@ -2,13 +2,9 @@ import Link from "next/link";
 
 import { ProductImage } from "@/components/public/product-image";
 import { Badge } from "@/components/ui/badge";
-import type { Prisma } from "@/generated/prisma/client";
+import type { ProductCardData } from "@/lib/serialize-product";
 
-type ProductWithRelations = Prisma.ProductGetPayload<{
-  include: { category: true; brand: true };
-}>;
-
-export function ProductCard({ product }: { product: ProductWithRelations }) {
+export function ProductCard({ product }: { product: ProductCardData }) {
   return (
     <Link
       href={`/products/${product.slug}`}
@@ -35,13 +31,11 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
           <p className="mt-1 text-sm text-muted-foreground">
             {product.isOnSale && product.salePrice != null ? (
               <>
-                <span className="mr-1.5 line-through">${product.price.toString()}</span>
-                <span className="font-medium text-foreground">
-                  ${product.salePrice.toString()}
-                </span>
+                <span className="mr-1.5 line-through">${product.price}</span>
+                <span className="font-medium text-foreground">${product.salePrice}</span>
               </>
             ) : (
-              <>${product.price.toString()}</>
+              <>${product.price}</>
             )}
           </p>
         )}
