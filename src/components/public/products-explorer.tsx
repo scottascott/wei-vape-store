@@ -102,28 +102,59 @@ export function ProductsExplorer({
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[220px_1fr]">
-      <aside className="space-y-6">
-        <div>
-          <p className="mb-3 text-xs font-semibold tracking-wide text-muted-foreground">
-            PRODUCT CATEGORIES
-          </p>
-          <nav className="flex flex-col gap-1">
+    <div className="grid items-start gap-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+      <aside className="space-y-5 lg:sticky lg:top-24">
+        <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+          <div className="border-b border-neutral-200 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-neutral-500">
+              Product Categories
+            </p>
+          </div>
+
+          <nav className="p-2">
             {categories.map((cat) => {
               const Icon = getCategoryIcon(cat.slug);
               const isActive = categorySlug === cat.slug;
+              const productCount = byCategory.get(cat.slug)?.length ?? 0;
+
               return (
                 <button
                   key={cat.id}
                   type="button"
-                  onClick={() => setCategorySlug(isActive ? undefined : cat.slug)}
+                  onClick={() =>
+                    setCategorySlug(isActive ? undefined : cat.slug)
+                  }
                   className={cn(
-                    "flex items-center gap-2.5 rounded-md px-3 py-2 text-left text-sm font-medium",
-                    isActive ? "bg-black text-white" : "text-foreground hover:bg-muted",
+                    "group flex w-full items-center gap-3 rounded-lg px-3 py-2.5",
+                    "text-left text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-black text-white"
+                      : "text-neutral-700 hover:bg-neutral-100 hover:text-black",
                   )}
                 >
-                  <Icon className="size-4" />
-                  {cat.name}
+                  <span
+                    className={cn(
+                      "flex size-8 shrink-0 items-center justify-center rounded-md transition-colors",
+                      isActive
+                        ? "bg-white/10 text-amber-400"
+                        : "bg-amber-50 text-amber-600 group-hover:bg-amber-100",
+                    )}
+                  >
+                    <Icon className="size-4" />
+                  </span>
+
+                  <span className="min-w-0 flex-1 truncate">
+                    {cat.name}
+                  </span>
+
+                  <span
+                    className={cn(
+                      "text-xs tabular-nums",
+                      isActive ? "text-neutral-400" : "text-neutral-400",
+                    )}
+                  >
+                    {productCount}
+                  </span>
                 </button>
               );
             })}
@@ -139,51 +170,75 @@ export function ProductsExplorer({
       </aside>
 
       <div>
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <div className="relative flex-1">
-            <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search products or brands..."
-              className="pl-9"
-            />
-          </div>
-          <Select
-            value={brandSlug ?? ALL_BRANDS_VALUE}
-            onValueChange={(value) =>
-              setBrandSlug(value === ALL_BRANDS_VALUE ? undefined : (value ?? undefined))
-            }
-            items={{
-              [ALL_BRANDS_VALUE]: "All Brands",
-              ...Object.fromEntries(brands.map((b) => [b.slug, b.name])),
-            }}
-          >
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={ALL_BRANDS_VALUE}>All Brands</SelectItem>
-              {brands.map((brand) => (
-                <SelectItem key={brand.id} value={brand.slug}>
-                  {brand.name}
+        <div className="rounded-xl border border-neutral-200 bg-neutral-50/70 p-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="relative flex-1">
+              <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
+
+              <Input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search products or brands..."
+                className="h-11 border-neutral-200 bg-white pl-10 shadow-none focus-visible:ring-black"
+              />
+            </div>
+
+            <Select
+              value={brandSlug ?? ALL_BRANDS_VALUE}
+              onValueChange={(value) =>
+                setBrandSlug(
+                  value === ALL_BRANDS_VALUE ? undefined : (value ?? undefined),
+                )
+              }
+              items={{
+                [ALL_BRANDS_VALUE]: "All Brands",
+                ...Object.fromEntries(
+                  brands.map((brand) => [brand.slug, brand.name]),
+                ),
+              }}
+            >
+              <SelectTrigger className="h-11 w-full border-neutral-200 bg-white shadow-none focus:ring-black sm:w-52">
+                <SelectValue />
+              </SelectTrigger>
+
+              <SelectContent>
+                <SelectItem value={ALL_BRANDS_VALUE}>
+                  All Brands
                 </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+
+                {brands.map((brand) => (
+                  <SelectItem key={brand.id} value={brand.slug}>
+                    {brand.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="mt-6">
           {isFiltered ? (
             <div>
-              <div className="flex items-center justify-between">
-                <SectionHeading>{heading}</SectionHeading>
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <SectionHeading>{heading}</SectionHeading>
+
+                  <p className="mt-2 text-sm text-neutral-500">
+                    {filtered.length} {filtered.length === 1 ? "product" : "products"}
+                  </p>
+                </div>
+
                 <button
                   type="button"
                   onClick={clearFilters}
-                  className="text-sm text-muted-foreground hover:text-foreground"
+                  className="
+                    shrink-0 rounded-full border border-neutral-200
+                    px-4 py-2 text-sm font-medium text-neutral-600
+                    transition-colors
+                    hover:border-black hover:bg-black hover:text-white
+                  "
                 >
-                  Clear filter
+                  Clear filters
                 </button>
               </div>
               <div className="mt-6">
