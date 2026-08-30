@@ -1,3 +1,4 @@
+import { AgeGate } from "@/components/public/age-gate";
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
 
@@ -11,6 +12,7 @@ export const dynamic = "force-dynamic";
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-full flex-1 flex-col">
+      <AgeGate />
       <SiteHeader />
       {/* The header is fixed below md (see SiteHeader), so push content down
           by its height on mobile only; at md+ it's back in normal flow. */}

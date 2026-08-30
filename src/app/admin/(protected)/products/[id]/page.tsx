@@ -20,6 +20,11 @@ export default async function EditProductPage({
 
   if (!product) notFound();
 
+  // price/salePrice are Decimal instances and can't cross the Server->Client
+  // Component boundary; the form doesn't edit them, so drop them here.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { price, salePrice, ...productForForm } = product;
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Edit Product</h1>
@@ -28,11 +33,7 @@ export default async function EditProductPage({
         <ProductForm
           categories={categories}
           brands={brands}
-          product={{
-            ...product,
-            price: product.price?.toString() ?? null,
-            salePrice: product.salePrice?.toString() ?? null,
-          }}
+          product={productForForm}
           action={updateProduct.bind(null, id)}
         />
       </div>

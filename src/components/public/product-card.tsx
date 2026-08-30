@@ -27,18 +27,6 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           <p className="text-xs text-muted-foreground">{product.brand.name}</p>
         )}
         <p className="text-sm font-medium leading-snug">{product.name}</p>
-        {product.price != null && (
-          <p className="mt-1 text-sm text-muted-foreground">
-            {product.isOnSale && product.salePrice != null ? (
-              <>
-                <span className="mr-1.5 line-through">${product.price}</span>
-                <span className="font-medium text-foreground">${product.salePrice}</span>
-              </>
-            ) : (
-              <>${product.price}</>
-            )}
-          </p>
-        )}
       </div>
     </Link>
   );

@@ -10,8 +10,6 @@ export type ProductCardData = {
   slug: string;
   name: string;
   imageUrl: string | null;
-  price: string | null;
-  salePrice: string | null;
   isNew: boolean;
   isOnSale: boolean;
   category: { slug: string; name: string };
@@ -24,8 +22,6 @@ export function toProductCardData(product: ProductWithRelations): ProductCardDat
     slug: product.slug,
     name: product.name,
     imageUrl: product.imageUrl,
-    price: product.price?.toString() ?? null,
-    salePrice: product.salePrice?.toString() ?? null,
     isNew: product.isNew,
     isOnSale: product.isOnSale,
     category: { slug: product.category.slug, name: product.category.name },

@@ -22,13 +22,11 @@ type ProductWithRelations = Prisma.ProductGetPayload<{
   include: { category: true; brand: true };
 }>;
 
-// Decimal instances can't cross the Server->Client Component boundary, so the
-// page passes price/salePrice pre-serialized to strings (see serializeProduct
-// in the products/new and products/[id] pages).
-type SerializedProduct = Omit<ProductWithRelations, "price" | "salePrice"> & {
-  price: string | null;
-  salePrice: string | null;
-};
+// Price/salePrice are Decimal instances, which can't cross the Server->Client
+// Component boundary — and the form no longer edits them anyway (price is
+// never shown publicly), so the products/[id] page strips them before
+// passing the product down here.
+type SerializedProduct = Omit<ProductWithRelations, "price" | "salePrice">;
 
 function toStringAttributeValues(attributes: unknown): Record<string, string> {
   const record = (attributes ?? {}) as Record<string, unknown>;
@@ -177,31 +175,22 @@ export function ProductForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="price">
-            Price <span className="font-normal text-muted-foreground">(optional)</span>
-          </Label>
-          <Input
-            id="price"
-            name="price"
-            type="number"
-            step="0.01"
-            defaultValue={product?.price ?? ""}
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="salePrice">
-            Sale price <span className="font-normal text-muted-foreground">(optional)</span>
-          </Label>
-          <Input
-            id="salePrice"
-            name="salePrice"
-            type="number"
-            step="0.01"
-            defaultValue={product?.salePrice ?? ""}
-          />
-        </div>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="priority">
+          Priority <span className="font-normal text-muted-foreground">(optional)</span>
+        </Label>
+        <Input
+          id="priority"
+          name="priority"
+          type="number"
+          step="1"
+          min="0"
+          placeholder="Leave blank for lowest priority"
+          defaultValue={product?.priority ?? ""}
+        />
+        <p className="text-xs text-muted-foreground">
+          Lower number shows first. The top 8 by priority appear on the homepage.
+        </p>
       </div>
 
       <div>

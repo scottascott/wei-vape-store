@@ -14,6 +14,13 @@ const productListInclude = {
   brand: true,
 };
 
+// Lower priority number shows first; null (no priority set) sorts last —
+// Postgres's default NULLS LAST behavior for ASC does this natively.
+const productOrderBy: Prisma.ProductOrderByWithRelationInput[] = [
+  { priority: { sort: "asc", nulls: "last" } },
+  { createdAt: "desc" },
+];
+
 export const productService = {
   list(filters: ProductFilters = {}) {
     return prisma.product.findMany({
@@ -23,14 +30,14 @@ export const productService = {
         brand: filters.brandSlug ? { slug: filters.brandSlug } : undefined,
       },
       include: productListInclude,
-      orderBy: { createdAt: "desc" },
+      orderBy: productOrderBy,
     });
   },
 
   listAllForAdmin() {
     return prisma.product.findMany({
       include: productListInclude,
-      orderBy: { createdAt: "desc" },
+      orderBy: productOrderBy,
     });
   },
 

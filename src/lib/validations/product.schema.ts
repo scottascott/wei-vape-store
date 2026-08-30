@@ -16,6 +16,16 @@ export const productInputSchema = z.object({
   imageUrl: z.url().optional().or(z.literal("")),
   price: z.coerce.number().nonnegative().optional(),
   salePrice: z.coerce.number().nonnegative().optional(),
+  // Blank means "no priority" (null, sorts last) — an explicit null rather than
+  // undefined so clearing a previously-set priority actually clears it in the DB.
+  priority: z
+    .string()
+    .optional()
+    .transform((value) => {
+      const trimmed = value?.trim();
+      return trimmed ? Number(trimmed) : null;
+    })
+    .pipe(z.number().int().min(0).nullable()),
   isNew: booleanFromSwitch,
   isOnSale: booleanFromSwitch,
   isActive: booleanFromSwitch,

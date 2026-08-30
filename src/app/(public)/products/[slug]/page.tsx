@@ -79,21 +79,6 @@ export default async function ProductDetailPage({
           )}
           <h1 className="mt-1 text-2xl font-semibold">{product.name}</h1>
 
-          {product.price != null && (
-            <p className="mt-3 text-lg">
-              {product.isOnSale && product.salePrice != null ? (
-                <>
-                  <span className="mr-2 text-muted-foreground line-through">
-                    ${product.price.toString()}
-                  </span>
-                  <span className="font-semibold">${product.salePrice.toString()}</span>
-                </>
-              ) : (
-                <>${product.price.toString()}</>
-              )}
-            </p>
-          )}
-
           <div className="mt-4">
             <AvailableInStore />
           </div>

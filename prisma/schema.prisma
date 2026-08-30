@@ -48,6 +48,8 @@ model Product {
   isNew       Boolean   @default(false)
   isOnSale    Boolean   @default(false)
   isActive    Boolean   @default(true)
+  // Lower number = shown first. Null sorts last (lowest priority).
+  priority    Int?
   // Plain external link, entered by hand in the admin — no upload/storage involved.
   imageUrl    String?
   createdAt   DateTime  @default(now())
