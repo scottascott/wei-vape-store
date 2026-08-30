@@ -88,29 +88,33 @@ export default async function HomePage() {
                     {category.description}
                   </p>
                 )}
-
-                {/* <span
-                  className="
-                    absolute right-3 top-3 text-sm text-neutral-300
-                    opacity-0 transition-all duration-200
-                    group-hover:translate-x-0.5 group-hover:text-amber-500
-                    group-hover:opacity-100
-                  "
-                >
-                  →
-                </span> */}
               </Link>
             );
           })}
           <Link
             href="/contact"
-            className="group flex flex-col items-center gap-2 rounded-lg border border-dashed p-5 text-center transition-colors hover:border-amber-400"
+            className="
+              group relative flex min-h-[132px] flex-col items-center justify-center
+              rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center
+              transition-all duration-200
+              hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg
+            "
           >
-            <ShoppingBag className="size-7 text-amber-500" />
-            <p className="text-sm font-semibold">More In Store</p>
-            <p className="line-clamp-2 text-xs text-muted-foreground">
-              Visit us for our full selection.
+            <span
+              className="
+                flex size-11 items-center justify-center rounded-lg
+                bg-amber-50 text-amber-500
+                transition-colors duration-200
+                group-hover:bg-black group-hover:text-amber-400
+              "
+            >
+              <ShoppingBag className="size-6" />
+            </span>
+
+            <p className="mt-3 text-sm font-semibold text-neutral-900">
+              More In Store
             </p>
+
           </Link>
         </div>
       </section>
