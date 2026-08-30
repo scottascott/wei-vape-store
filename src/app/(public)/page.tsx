@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BrandMarquee } from "@/components/public/brand-marquee";
 import { ProductGrid } from "@/components/public/product-grid";
 import { SectionHeading } from "@/components/public/section-heading";
+import { VapeOrbit } from "@/components/public/vape-orbit";
 import { getCategoryIcon } from "@/lib/category-icons";
 import { toProductCardData } from "@/lib/serialize-product";
 import { brandService } from "@/server/services/brand.service";
@@ -28,27 +29,31 @@ export default async function HomePage() {
   return (
     <div>
       <section className="bg-black text-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-            QUALITY PRODUCTS
-            <span className="block text-amber-400">LOCAL SERVICE</span>
-          </h1>
+        <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 py-14 sm:py-16 lg:grid-cols-[minmax(0,1.12fr)_minmax(340px,0.88fr)] lg:gap-4 lg:py-12">
+          <div className="relative z-10">
+            <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
+              QUALITY PRODUCTS
+              <span className="block text-amber-400">LOCAL SERVICE</span>
+            </h1>
 
-          <p className="mt-4 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
-            Explore trusted vape brands, devices, and accessories—all available in store.
-          </p>
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+              Explore trusted vape brands, devices, and accessories—all available in store.
+            </p>
 
-          <div className="mt-8 flex flex-wrap gap-6 border-t border-white/10 pt-6">
-            {FEATURE_BADGES.map((badge) => (
-              <div key={badge.label} className="flex items-start gap-2.5">
-                <badge.icon className="mt-0.5 size-5 shrink-0 text-amber-400" />
-                <div>
-                  <p className="text-sm font-semibold">{badge.label}</p>
-                  <p className="text-xs text-white/50">{badge.detail}</p>
+            <div className="mt-8 flex flex-wrap gap-6 border-t border-white/10 pt-6">
+              {FEATURE_BADGES.map((badge) => (
+                <div key={badge.label} className="flex items-start gap-2.5">
+                  <badge.icon className="mt-0.5 size-5 shrink-0 text-amber-400" />
+                  <div>
+                    <p className="text-sm font-semibold">{badge.label}</p>
+                    <p className="text-xs text-white/50">{badge.detail}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          <VapeOrbit />
         </div>
       </section>
 
