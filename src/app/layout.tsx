@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Wei's Vape — Specialty Vape Store",
   description: "Disposables, pods, e-liquid, devices, and accessories — available in store.",
+  authors: [{ name: "Scott", url: "https://scottascott.github.io/" }],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -130,17 +130,6 @@ export async function SiteFooter() {
         <p className="mt-1">
           &copy; {new Date().getFullYear()} {storeInfo?.name ?? "Wei's Vape"}. All rights reserved.
         </p>
-        <p className="mt-1 text-white/30">
-          Site by{" "}
-          <Link
-            href="https://scottascott.github.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white/60"
-          >
-            Scott
-          </Link>
-        </p>
       </div>
     </footer>
   );
