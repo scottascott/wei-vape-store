@@ -197,7 +197,7 @@ export function ProductsExplorer({
                 ),
               }}
             >
-              <SelectTrigger className="h-11 w-full border-neutral-200 bg-white shadow-none focus:ring-black sm:w-52">
+              <SelectTrigger className="h-11 w-full border-neutral-200 bg-white shadow-none focus:ring-black data-[size=default]:h-11 sm:w-52">
                 <SelectValue />
               </SelectTrigger>
 
