@@ -2,25 +2,15 @@ import { MapPin, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { categoryService } from "@/server/services/category.service";
+import { MobileNav } from "@/components/public/mobile-nav";
+import { NAV_LINKS } from "@/lib/nav-links";
 import { storeInfoService } from "@/server/services/store-info.service";
 
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
-  { href: "/brands", label: "Brands" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
-];
-
 export async function SiteHeader() {
-  const [categories, storeInfo] = await Promise.all([
-    categoryService.listAll(),
-    storeInfoService.get(),
-  ]);
+  const storeInfo = await storeInfoService.get();
 
   return (
-    <header className="bg-black text-white">
+    <header className="bg-black text-white max-md:fixed max-md:inset-x-0 max-md:top-0 max-md:z-50">
       <div className="hidden border-b border-white/10 sm:block">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-2 text-xs text-white/70">
           <p className="flex items-center gap-1.5">
@@ -78,19 +68,13 @@ export async function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold">
+        <div className="hidden items-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold md:flex">
           <ShieldCheck className="size-4 text-amber-400" />
-          <span className="hidden sm:inline">19+ ONLY</span>
+          <span>19+ ONLY</span>
         </div>
-      </div>
 
-      <nav className="flex items-center gap-4 overflow-x-auto border-t border-white/10 px-4 py-2 text-xs font-medium text-white/70 md:hidden">
-        {categories.map((category) => (
-          <Link key={category.id} href={`/products?category=${category.slug}`} className="shrink-0">
-            {category.name}
-          </Link>
-        ))}
-      </nav>
+        <MobileNav />
+      </div>
     </header>
   );
 }

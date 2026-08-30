@@ -12,7 +12,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <SiteHeader />
-      <main className="flex-1">{children}</main>
+      {/* The header is fixed below md (see SiteHeader), so push content down
+          by its height on mobile only; at md+ it's back in normal flow. */}
+      <main className="max-md:pt-[76px] flex-1">{children}</main>
       <SiteFooter />
     </div>
   );
