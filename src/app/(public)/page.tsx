@@ -29,14 +29,13 @@ export default async function HomePage() {
     <div>
       <section className="bg-black text-white">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:py-20">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
-            WEI&apos;S <span className="text-amber-400">VAPE</span>
+          <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
+            QUALITY PRODUCTS
+            <span className="block text-amber-400">LOCAL SERVICE</span>
           </h1>
-          <p className="mt-2 text-lg font-medium tracking-[0.15em] text-amber-400">
-            SPECIALTY VAPE STORE
-          </p>
-          <p className="mt-4 max-w-xl text-white/70">
-            We offer a wide selection of quality vape products from top brands.
+
+          <p className="mt-4 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
+            Explore trusted vape brands, devices, and accessories—all available in store.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-6 border-t border-white/10 pt-6">
@@ -62,15 +61,44 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/products?category=${category.slug}`}
-                className="group flex flex-col items-center gap-2 rounded-lg border p-5 text-center transition-colors hover:border-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-500/5"
+                className="
+                  group relative flex min-h-[132px] flex-col items-center justify-center
+                  rounded-xl border border-neutral-200 bg-white px-4 py-5 text-center
+                  transition-all duration-200
+                  hover:-translate-y-1 hover:border-amber-400 hover:shadow-lg
+                "
               >
-                <Icon className="size-7 text-amber-500" />
-                <p className="text-sm font-semibold">{category.name}</p>
+                <span
+                  className="
+                    flex size-11 items-center justify-center rounded-lg
+                    bg-amber-50 text-amber-500
+                    transition-colors duration-200
+                    group-hover:bg-black group-hover:text-amber-400
+                  "
+                >
+                  <Icon className="size-6" />
+                </span>
+
+                <p className="mt-3 text-sm font-semibold text-neutral-900">
+                  {category.name}
+                </p>
+
                 {category.description && (
-                  <p className="line-clamp-2 text-xs text-muted-foreground">
+                  <p className="mt-1 line-clamp-2 text-xs leading-5 text-neutral-500">
                     {category.description}
                   </p>
                 )}
+
+                {/* <span
+                  className="
+                    absolute right-3 top-3 text-sm text-neutral-300
+                    opacity-0 transition-all duration-200
+                    group-hover:translate-x-0.5 group-hover:text-amber-500
+                    group-hover:opacity-100
+                  "
+                >
+                  →
+                </span> */}
               </Link>
             );
           })}
