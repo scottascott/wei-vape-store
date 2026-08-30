@@ -35,15 +35,29 @@ export async function SiteHeader() {
       </div>
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4">
-        <Link href="/" className="flex shrink-0 items-center">
+        <Link href="/" className="flex shrink-0 items-center gap-3">
           <Image
             src="/logo.png"
-            alt={storeInfo?.name ?? "Wei's Vape"}
+            alt=""
             width={500}
             height={500}
             className="size-11 sm:size-12"
             priority
           />
+          <span className="leading-tight">
+            <span className="block text-lg font-extrabold tracking-tight sm:text-xl">
+              {storeInfo?.name ? (
+                storeInfo.name
+              ) : (
+                <>
+                  WEI&apos;S <span className="text-amber-400">VAPE</span>
+                </>
+              )}
+            </span>
+            <span className="block text-[10px] font-medium tracking-[0.2em] text-white/50">
+              SPECIALTY VAPE STORE
+            </span>
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-white/80 md:flex">

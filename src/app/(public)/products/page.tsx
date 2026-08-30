@@ -169,7 +169,7 @@ async function CategorySection({
         </Link>
       </div>
       <div className="mt-4">
-        <ProductGrid products={products.slice(0, 5)} />
+        <ProductGrid products={products.slice(0, 4)} />
       </div>
     </section>
   );
