@@ -4,18 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminDashboardPage() {
-  const [productCount, categoryCount, brandCount, bannerCount] = await Promise.all([
+  const [productCount, categoryCount, brandCount] = await Promise.all([
     prisma.product.count(),
     prisma.category.count(),
     prisma.brand.count(),
-    prisma.banner.count(),
   ]);
 
   const cards = [
     { label: "Products", count: productCount, href: "/admin/products" },
     { label: "Categories", count: categoryCount, href: "/admin/categories" },
     { label: "Brands", count: brandCount, href: "/admin/brands" },
-    { label: "Banners", count: bannerCount, href: "/admin/banners" },
   ];
 
   return (
