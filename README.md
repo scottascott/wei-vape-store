@@ -4,11 +4,19 @@ A full-stack website for a local, brick-and-mortar specialty vape shop: a public
 
 **Live demo:** <https://wei-vape-store.vercel.app/>
 
-<!-- Add screenshots here, e.g.:
-![Home](docs/screenshots/home.png)
-![Products](docs/screenshots/products.png)
-![Admin](docs/screenshots/admin.png)
--->
+## Screenshots
+
+| Home | Products (filter, search, brand) |
+|---|---|
+| ![Home page](docs/screenshots/home.png) | ![Products page](docs/screenshots/products.png) |
+
+| Age verification | Admin: product form |
+|---|---|
+| ![Age verification modal](docs/screenshots/age-gate.png) | ![Admin product form with per-category attributes](docs/screenshots/admin-product-form.png) |
+
+| Mobile home | Mobile menu |
+|---|---|
+| <img src="docs/screenshots/mobile-home.png" alt="Mobile home page" width="280"> | <img src="docs/screenshots/mobile-menu.png" alt="Mobile navigation menu" width="280"> |
 
 ## Highlights
 
