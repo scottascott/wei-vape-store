@@ -2,6 +2,8 @@
 
 A full-stack website for a local, brick-and-mortar specialty vape shop: a public product catalog plus a private admin CMS for the shop owner to manage it. It is **catalog-only by design** — no cart, no checkout, no live inventory. Every product page says "Available in store — contact us for current availability", and prices are intentionally never shown publicly.
 
+**Live demo:** <https://wei-vape-store.vercel.app/>
+
 <!-- Add screenshots here, e.g.:
 ![Home](docs/screenshots/home.png)
 ![Products](docs/screenshots/products.png)
@@ -150,4 +152,6 @@ src/
 
 ## License
 
-Personal portfolio project. Product names and brands are the property of their respective owners.
+Code released under the [MIT License](LICENSE), including the logo and favicon included in this repository.
+
+"Wei's Vape" is the name of the local shop this site was built for and is used here for demonstration only; it is not licensed for reuse as a brand. Vape product and brand names shown in the data are the property of their respective owners.
